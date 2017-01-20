@@ -1,6 +1,6 @@
 {
   "name": "react-tabledata",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A react component for asynchroneus data display using axios",
   "main": "lib/index.js",
   "author": "Nicolas Boisvert (nicklay@me.com)",
