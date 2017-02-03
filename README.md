@@ -4,7 +4,14 @@
 
 ### A react component for displaying data in a table. Yup. Simple as that
 
-The major purposes of this project is to be able to have an async tabledata for displaying data in a fully customizable way
+The major purposes of this project is to be able to have an async tabledata for displaying data in a fully customizable way. Try it out [right here](https://github.com/nicklayb/react-tabledata-async) and improve it as much as you can!
+
+## Installation
+
+I recommand a npm installation by :
+```
+npm install --save react-tabledata
+```
 
 ## Examples
 
