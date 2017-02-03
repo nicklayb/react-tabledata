@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import Tabledata from '../src'
+import TableHeader from '../src/components/TableHeader';
 import '../style.css'
 
 class Layout extends Component {
@@ -11,11 +12,10 @@ class Layout extends Component {
             lastname: '',
             email:'',
             data: [
-                {firstname:'Nicolas', lastname:'Boisvert', email:'nicklay@me.com'},
-                {firstname:'Etienne', lastname:'Lacoursiere', email:'elacoursiere@caqtus.io'},
-                {firstname:'Anthony', lastname:'Jean', email:'ajean@caqtus.io'},
-            ],
-            headers: ['Prenom', 'Nom', 'Courriel']
+                {id: 1, firstname:'Nicolas', lastname:'Boisvert', email:'nicklay@me.com'},
+                {id: 2, firstname:'Etienne', lastname:'Lacoursiere', email:'elacoursiere@caqtus.io'},
+                {id: 3, firstname:'Anthony', lastname:'Jean', email:'ajean@caqtus.io'},
+            ]
         }
     }
     handleSetFirstname(event) {
@@ -35,9 +35,7 @@ class Layout extends Component {
         },
         data = this.state.data;
         data.push(obj);
-        this.setState({
-            data: data
-        });
+        this.setState({data});
     }
     render() {
         return (
@@ -46,7 +44,13 @@ class Layout extends Component {
                 <input onChange={this.handleSetEmail.bind(this)} value={this.state.email}/>
                 <input onChange={this.handleSetLastname.bind(this)} value={this.state.lastname}/>
                 <button onClick={this.storeUser.bind(this)}>Save</button>
-                <Tabledata data={this.state.data} headers={this.state.headers} />
+                <Tabledata datas={this.state.data} headers={this.state.headers}>
+                    <TableHeader attribute={'firstname'}>Prenom</TableHeader>
+                    <TableHeader attribute={'lastname'}>Nom</TableHeader>
+                    <TableHeader renderCell={(content, index, row) => (row.firstname+' '+row.lastname)}>Nom complet</TableHeader>
+                    <TableHeader attribute={'email'}>Courriel</TableHeader>
+                    <TableHeader renderCell={(content,index,row) => (<button>{row.id}</button>)}>Btn</TableHeader>
+                </Tabledata>
             </div>
         )
     }
