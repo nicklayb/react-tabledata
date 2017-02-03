@@ -1,7 +1,7 @@
 {
   "name": "react-tabledata",
-  "version": "0.1.0",
-  "description": "A react component for asynchroneus data display using axios",
+  "version": "0.1.1",
+  "description": "A react component for displaying data in a table. Yup. Simple as that",
   "main": "lib/index.js",
   "author": "Nicolas Boisvert (nicklay@me.com)",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
+    "eslint-plugin-react": "^6.9.0",
     "firenpm": "1.2.0"
   },
   "babel": {
@@ -34,7 +35,6 @@
     "datatable",
     "react",
     "component",
-    "axios",
     "json"
   ],
   "bugs": {
