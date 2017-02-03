@@ -1,6 +1,6 @@
 {
   "name": "react-tabledata",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A react component for displaying data in a table. Yup. Simple as that",
   "main": "lib/index.js",
   "author": "Nicolas Boisvert (nicklay@me.com)",
