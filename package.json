@@ -1,6 +1,6 @@
 {
   "name": "react-tabledata",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A react component for displaying data in a table. Yup. Simple as that",
   "main": "lib/index.js",
   "author": "Nicolas Boisvert (nicklay@me.com)",
@@ -13,6 +13,7 @@
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
+    "eslint": "^3.15.0",
     "eslint-plugin-react": "^6.9.0",
     "firenpm": "1.2.0"
   },

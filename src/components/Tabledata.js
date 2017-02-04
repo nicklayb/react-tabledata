@@ -17,10 +17,11 @@ export default class Tabledata extends Component {
     }
 
     _renderRow(cells, rowIndex) {
+        let Row = this.getTag('tr');
         return (
-            <tr key={rowIndex}>
+            <Row key={rowIndex}>
                 {cells}
-            </tr>
+            </Row>
         );
     }
 
@@ -29,10 +30,11 @@ export default class Tabledata extends Component {
     }
 
     prepareCells(row) {
+        let Cell = this.getTag('td');
         return this.cells.map((value, index) => {
             let content = row[value.attribute];
             let renderMethod = (value.renderCell) ? value.renderCell : this._renderCell;
-            return ((<td key={index}>{renderMethod(content, index, row)}</td>));
+            return ((<Cell key={index}>{renderMethod(content, index, row)}</Cell>));
         });
     }
 
@@ -46,29 +48,38 @@ export default class Tabledata extends Component {
         });
     }
 
+    getTag(tag) {
+        return (this.props[tag]) ? this.props[tag] : tag;
+    }
+
     renderHead() {
+        let Row = this.getTag('tr');
+        let Thead = this.getTag('thead');
         return (
-            <thead>
-                <tr>
+            <Thead>
+                <Row>
                     {this.props.children}
-                </tr>
-            </thead>
+                </Row>
+            </Thead>
         );
     }
+
     renderBody() {
+        let Tbody = this.getTag('tbody');
         return (
-            <tbody>
+            <Tbody>
                 {this.renderRows()}
-            </tbody>
+            </Tbody>
         );
     }
 
     render() {
+        let Table = this.getTag('table');
         return (
-            <table id={this.props.id} className={this.props.className}>
+            <Table id={this.props.id} className={this.props.className}>
                 {this.renderHead()}
                 {this.renderBody()}
-            </table>
+            </Table>
         );
     }
 }

@@ -12,11 +12,12 @@
     },
     "extends": "eslint:recommended",
     "globals": {
-        "lbal": false,
-        "Lbal": false,
-        "Qonga": false,
+        "Promise": false,
         "require": false
     },
+    "plugins": [
+        "react"
+    ],
     "root": true,
     "rules": {
         "array-bracket-spacing": ["error", "never"],
@@ -78,6 +79,8 @@
         "quotes": ["error", "single"],
         "radix": ["error"],
         "no-console": [1],
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
         "semi": ["error", "always"],
         "semi-spacing": ["error", { "before": false, "after": true }],
         "space-before-blocks": ["error", "always"],
