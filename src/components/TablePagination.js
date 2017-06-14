@@ -31,7 +31,7 @@ class TablePagination extends React.Component {
         }
         paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key='1' pageNumber= {1} changeHandler={this.handleClick.bind(this, 0)}/>);
         if (current > 2) {
-            if (current - 2 != 1) {
+            if (current - 2 != 1 && current - 3 != 1) {
                 paginations.push('...');
             }
             if (current === allPages && allPages > 3) {
@@ -47,7 +47,7 @@ class TablePagination extends React.Component {
             if (current == 1 && allPages > 3) {
                 paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current + 2}pageNumber= {current + 2} changeHandler={this.handleClick.bind(this, current + 1)}/>);
             }
-            if (current + 1 != allPages - 1) {
+            if (current + 1 != allPages - 1 && current + 2 != allPages - 1) {
                 paginations.push('...');
             }
         }

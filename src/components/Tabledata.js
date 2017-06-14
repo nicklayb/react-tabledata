@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import TablePagination from './TablePagination';
 import Slice from 'lodash/slice';
 
-const ROWS_PER_PAGE = 3;
+const DEFAULT_ROWS_PER_PAGE = 10;
 
 export default class Tabledata extends Component {
     constructor(props) {
         super(props);
+        this._rowsToDisplay = this.props.rowsToDisplay ? this.props.rowsToDisplay : DEFAULT_ROWS_PER_PAGE;
         this.cells = [];
         this.setupCells();
         this.state = {
@@ -46,20 +47,20 @@ export default class Tabledata extends Component {
     }
 
     requiresPagination() {
-        return this.props.datas.length > ROWS_PER_PAGE;
+        return this.props.datas.length > this._rowsToDisplay;
     }
 
     pageCount() {
-        return Math.ceil(this.props.datas.length / ROWS_PER_PAGE);
+        return Math.ceil(this.props.datas.length / this._rowsToDisplay);
     }
 
     getPaginatedFiles() {
         const start = this.getPaginationStart();
-        return Slice(this.props.datas, start, start + ROWS_PER_PAGE);
+        return Slice(this.props.datas, start, start + this._rowsToDisplay);
     }
 
     getPaginationStart() {
-        return (this.state.page * ROWS_PER_PAGE);
+        return (this.state.page * this._rowsToDisplay);
     }
 
     handlePageChange(page) {
