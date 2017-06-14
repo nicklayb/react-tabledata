@@ -15,7 +15,8 @@
   "devDependencies": {
     "eslint": "^3.15.0",
     "eslint-plugin-react": "^6.9.0",
-    "firenpm": "1.2.0"
+    "firenpm": "1.2.0",
+    "firenpm.web": "1.2.0"
   },
   "babel": {
     "presets": [

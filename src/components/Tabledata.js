@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import TablePagination from './TablePagination';
+import Slice from 'lodash/slice';
+
+const ROWS_PER_PAGE = 3;
 
 export default class Tabledata extends Component {
     constructor(props) {
         super(props);
         this.cells = [];
         this.setupCells();
+        this.state = {
+            page: 0
+        };
     }
 
     setupCells() {
@@ -38,8 +45,31 @@ export default class Tabledata extends Component {
         });
     }
 
+    requiresPagination() {
+        return this.props.datas.length > ROWS_PER_PAGE;
+    }
+
+    pageCount() {
+        return Math.ceil(this.props.datas.length / ROWS_PER_PAGE);
+    }
+
+    getPaginatedFiles() {
+        const start = this.getPaginationStart();
+        return Slice(this.props.datas, start, start + ROWS_PER_PAGE);
+    }
+
+    getPaginationStart() {
+        return (this.state.page * ROWS_PER_PAGE);
+    }
+
+    handlePageChange(page) {
+        this.setState({
+            page: page
+        });
+    }
+
     renderRows() {
-        return this.props.datas.map((row, rowIndex) => {
+        return this.getPaginatedFiles().map((row, rowIndex) => {
             let cells = this.prepareCells(row);
             if (this.props.renderRow) {
                 return this.props.renderRow(cells, rowIndex);
@@ -76,10 +106,13 @@ export default class Tabledata extends Component {
     render() {
         let Table = this.getTag('table');
         return (
+            <div className="table-data-wrapper">
             <Table id={this.props.id} className={this.props.className}>
                 {this.renderHead()}
                 {this.renderBody()}
             </Table>
+            {this.requiresPagination() && <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange.bind(this)}/>}
+        </div>
         );
     }
 }
