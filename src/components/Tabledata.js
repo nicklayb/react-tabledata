@@ -7,7 +7,8 @@ const DEFAULT_ROWS_PER_PAGE = 10;
 export default class Tabledata extends Component {
     constructor(props) {
         super(props);
-        this._rowsToDisplay = this.props.rowsToDisplay ? this.props.rowsToDisplay : DEFAULT_ROWS_PER_PAGE;
+        this._rowsToDisplay = this.props.rowsPerPage ? this.props.rowsPerPage : DEFAULT_ROWS_PER_PAGE;
+        this._datas = (Array.isArray(this.props.datas)) ? this.props.datas : this.props.datas[Object.keys(this.props.datas)[0]];
         this.cells = [];
         this.setupCells();
         this.state = {
@@ -47,16 +48,16 @@ export default class Tabledata extends Component {
     }
 
     requiresPagination() {
-        return this.props.datas.length > this._rowsToDisplay;
+        return this._datas.length > this._rowsToDisplay;
     }
 
     pageCount() {
-        return Math.ceil(this.props.datas.length / this._rowsToDisplay);
+        return Math.ceil(this._datas.length / this._rowsToDisplay);
     }
 
-    getPaginatedFiles() {
+    getPaginatedData() {
         const start = this.getPaginationStart();
-        return Slice(this.props.datas, start, start + this._rowsToDisplay);
+        return Slice(this._datas, start, start + this._rowsToDisplay);
     }
 
     getPaginationStart() {
@@ -70,7 +71,7 @@ export default class Tabledata extends Component {
     }
 
     renderRows() {
-        return this.getPaginatedFiles().map((row, rowIndex) => {
+        return this.getPaginatedData().map((row, rowIndex) => {
             let cells = this.prepareCells(row);
             if (this.props.renderRow) {
                 return this.props.renderRow(cells, rowIndex);
