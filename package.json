@@ -9,13 +9,15 @@
     "test": "run test"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "eslint": "^3.15.0",
     "eslint-plugin-react": "^6.9.0",
-    "firenpm": "1.2.0"
+    "firenpm": "1.2.0",
+    "firenpm.web": "1.2.0"
   },
   "babel": {
     "presets": [

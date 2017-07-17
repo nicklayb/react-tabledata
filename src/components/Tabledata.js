@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
+import TablePagination from './TablePagination';
+import Slice from 'lodash/slice';
+
+const DEFAULT_ROWS_PER_PAGE = 10;
 
 export default class Tabledata extends Component {
     constructor(props) {
         super(props);
+        this._rowsToDisplay = this.props.rowsPerPage ? this.props.rowsPerPage : DEFAULT_ROWS_PER_PAGE;
+        this._datas = (Array.isArray(this.props.datas)) ? this.props.datas : this.props.datas[Object.keys(this.props.datas)[0]];
         this.cells = [];
         this.setupCells();
+        this.state = {
+            page: 0
+        };
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     setupCells() {
@@ -38,8 +48,31 @@ export default class Tabledata extends Component {
         });
     }
 
+    requiresPagination() {
+        return this._datas.length > this._rowsToDisplay;
+    }
+
+    pageCount() {
+        return Math.ceil(this._datas.length / this._rowsToDisplay);
+    }
+
+    getPaginatedData() {
+        const start = this.getPaginationStart();
+        return Slice(this._datas, start, start + this._rowsToDisplay);
+    }
+
+    getPaginationStart() {
+        return (this.state.page * this._rowsToDisplay);
+    }
+
+    handlePageChange(page) {
+        this.setState({
+            page: page
+        });
+    }
+
     renderRows() {
-        return this.props.datas.map((row, rowIndex) => {
+        return this.getPaginatedData().map((row, rowIndex) => {
             let cells = this.prepareCells(row);
             if (this.props.renderRow) {
                 return this.props.renderRow(cells, rowIndex);
@@ -73,13 +106,22 @@ export default class Tabledata extends Component {
         );
     }
 
+    renderPagination() {
+        if (this.requiresPagination()) {
+            return <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange}/>;
+        }
+    }
+
     render() {
         let Table = this.getTag('table');
         return (
+            <div className="table-data-wrapper">
             <Table id={this.props.id} className={this.props.className}>
                 {this.renderHead()}
                 {this.renderBody()}
             </Table>
+            {this.renderPagination()}
+        </div>
         );
     }
 }
