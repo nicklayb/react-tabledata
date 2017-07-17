@@ -1,13 +1,13 @@
 import React from 'react';
 
-const TablePaginationPage = (props) => {
+const TablePaginationPage = ({ currentPage, pageNumber, changeHandler }) => {
     const handleClick = (page) => {
-        props.changeHandler(page);
+        changeHandler(page);
     };
 
     return (
-            <button currentPage={props.currentPage} className={props.currentPage == props.pageNumber - 1 ? 'active' : ''} onClick={handleClick.bind(this, props.pageNumber - 1)}>
-                <i>{props.pageNumber}</i>
+            <button currentPage={currentPage} className={currentPage == pageNumber - 1 ? 'active' : ''} onClick={handleClick.bind(this, pageNumber - 1)}>
+                {pageNumber}
             </button>
     );
 };

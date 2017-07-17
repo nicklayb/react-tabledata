@@ -106,6 +106,12 @@ export default class Tabledata extends Component {
         );
     }
 
+    renderPagination() {
+        if (this.requiresPagination()) {
+            return <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange}/>;
+        }
+    }
+
     render() {
         let Table = this.getTag('table');
         return (
@@ -114,7 +120,7 @@ export default class Tabledata extends Component {
                 {this.renderHead()}
                 {this.renderBody()}
             </Table>
-            {this.requiresPagination() && <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange}/>}
+            {this.renderPagination()}
         </div>
         );
     }

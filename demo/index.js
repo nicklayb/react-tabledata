@@ -27,7 +27,7 @@ class Example extends Component {
         { 'id': 20, 'firstname': 'Ronny', 'lastname': 'Gelderd', 'email': 'rgelderdj@hc360.com' }];
         return (
             <div>
-                <Tabledata datas={data} rowsPerPage={5}>
+                <Tabledata datas={data} rowsPerPage={2}>
                     <Tableheader attribute={'firstname'}>Firstname</Tableheader>
                     <Tableheader attribute={'lastname'}>Lastname</Tableheader>
                     <Tableheader renderCell={(_content, _index, row) => (row.firstname + ' ' + row.lastname)}>Fullname</Tableheader>
