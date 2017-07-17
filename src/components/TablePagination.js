@@ -1,68 +1,81 @@
 import React from 'react';
 import TablePaginationPage from './TablePaginationPage';
 
-class TablePagination extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            previousDisabled: true,
-            nextDisabled: false,
-        };
-    }
-
-    handleClick(page) {
-        if (page >= 0 && page < this.props.pageCount) {
-            this.props.changeHandler(page);
+const TablePagination = (props) => {
+    const handleClick = (page) => {
+        if (page >= 0 && page < props.pageCount) {
+            props.changeHandler(page);
         }
-        this.props.currentPage === 0 ? this.setState({ previousDisabled: true }) : this.setState({ previousDisabled: false });
-        this.props.currentPage == this.props.pageCount - 2 ? this.setState({ nextDisabled: true }) : this.setState({ nextDisabled: false });
-    }
+    };
 
-    renderPagination() {
+    const hasPages = () => {
+        return props.pageCount > 0;
+    };
+
+    const renderPrevious = (paginations) => {
+        paginations.push(<button key='0' onClick={handleClick.bind(this, props.currentPage - 1)}><i>{'<'}</i></button>);
+    };
+
+    const renderNext = (paginations) => {
+        paginations.push(<button onClick={handleClick.bind(this, props.currentPage + 1)} key={props.pageCount + 1}><i>{'>'}</i></button>);
+    };
+
+    const renderLeftSidePagination = (current, paginations) => {
+        paginations.push(<TablePaginationPage currentPage={props.currentPage} key={current} pageNumber= {current} changeHandler={handleClick.bind(this, current - 1)}/>);
+    };
+
+    const renderMiddleSidePagination = (current, paginations) => {
+        if (current - 2 != 1 && current - 3 != 1) {
+            paginations.push('...');
+        }
+        if (current === props.pageCount && props.pageCount > 3) {
+            paginations.push(<TablePaginationPage currentPage={props.currentPage} key={current - 2} pageNumber= {current - 2} changeHandler={handleClick.bind(this, current - 3)}/>);
+        }
+        paginations.push(<TablePaginationPage currentPage={props.currentPage} key={current - 1} pageNumber= {current - 1} changeHandler={handleClick.bind(this, current - 2)}/>);
+    };
+
+    const renderRightSidePagination = (current, paginations) => {
+        paginations.push(<TablePaginationPage currentPage={props.currentPage} key={current + 1} pageNumber= {current + 1} changeHandler={handleClick.bind(this, current)}/>);
+        if (current == 1 && props.pageCount > 3) {
+            paginations.push(<TablePaginationPage currentPage={props.currentPage} key={current + 2}pageNumber= {current + 2} changeHandler={handleClick.bind(this, current + 1)}/>);
+        }
+        if (current + 1 != props.pageCount - 1 && current + 2 != props.pageCount - 1) {
+            paginations.push('...');
+        }
+    };
+
+    const renderPagination = () => {
         let paginations = [];
-        let current = this.props.currentPage + 1;
-        let allPages = this.props.pageCount;
-        if (allPages == 0) {
+        let current = props.currentPage + 1;
+        let allPages = props.pageCount;
+        if (!hasPages()) {
             return;
         }
 
         if (current > 1) {
-            paginations.push(<button disabled={this.props.currentPage === 0 ? this.state.previousDisabled : ''} key='0' onClick={this.handleClick.bind(this, this.props.currentPage - 1)}><i>{'<'}</i></button>);
+            renderPrevious(paginations);
         }
-        paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key='1' pageNumber= {1} changeHandler={this.handleClick.bind(this, 0)}/>);
+        paginations.push(<TablePaginationPage currentPage={props.currentPage} key='1' pageNumber= {1} changeHandler={handleClick.bind(this, 0)}/>);
+
         if (current > 2) {
-            if (current - 2 != 1 && current - 3 != 1) {
-                paginations.push('...');
-            }
-            if (current === allPages && allPages > 3) {
-                paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current - 2} pageNumber= {current - 2} changeHandler={this.handleClick.bind(this, current - 3)}/>);
-            }
-            paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current - 1} pageNumber= {current - 1} changeHandler={this.handleClick.bind(this, current - 2)}/>);
+            renderMiddleSidePagination(current, paginations);
         }
         if (current != 1 && current != allPages) {
-            paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current} pageNumber= {current} changeHandler={this.handleClick.bind(this, current - 1)}/>);
+            renderLeftSidePagination(current, paginations);
         }
         if (current < allPages - 1) {
-            paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current + 1} pageNumber= {current + 1} changeHandler={this.handleClick.bind(this, current)}/>);
-            if (current == 1 && allPages > 3) {
-                paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={current + 2}pageNumber= {current + 2} changeHandler={this.handleClick.bind(this, current + 1)}/>);
-            }
-            if (current + 1 != allPages - 1 && current + 2 != allPages - 1) {
-                paginations.push('...');
-            }
+            renderRightSidePagination(current, paginations);
         }
-        paginations.push(<TablePaginationPage currentPage={this.props.currentPage} key={allPages} pageNumber= {allPages} changeHandler={this.handleClick.bind(this, allPages - 1)}/>);
+        paginations.push(<TablePaginationPage currentPage={props.currentPage} key={allPages} pageNumber= {allPages} changeHandler={handleClick.bind(this, allPages - 1)}/>);
         if (current < allPages)
-            paginations.push(<button onClick={this.handleClick.bind(this, this.props.currentPage + 1)} key={allPages + 1} disabled={this.state.nextDisabled}><i>{'>'}</i></button>);
-        return paginations;
-    }
+            renderNext(paginations);
 
-    render() {
-        return (
-            <div className="table-pagination">
-                {this.renderPagination()}
-            </div>
-        );
-    }
-}
-export default TablePagination;
+        return paginations;
+    };
+
+    return (
+        <div className="table-pagination">
+            {renderPagination()}
+        </div>
+    );
+}; export default TablePagination;

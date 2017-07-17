@@ -14,6 +14,7 @@ export default class Tabledata extends Component {
         this.state = {
             page: 0
         };
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     setupCells() {
@@ -113,7 +114,7 @@ export default class Tabledata extends Component {
                 {this.renderHead()}
                 {this.renderBody()}
             </Table>
-            {this.requiresPagination() && <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange.bind(this)}/>}
+            {this.requiresPagination() && <TablePagination currentPage={this.state.page} pageCount= {this.pageCount()} changeHandler={this.handlePageChange}/>}
         </div>
         );
     }
